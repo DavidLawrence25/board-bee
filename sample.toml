@@ -1,0 +1,200 @@
+metadata.version = 0.0
+
+[board]
+name = "School"
+desc = "..."
+labels = [
+	"00_ENGL_2200",
+	"01_CS_2420",
+	"02_MATH_1220",
+	"03_PHYS_1010",
+	"04_HIST_1700",
+	"06_GFL",
+	"07_ENGLISH_11",
+	"08_INTERNSHIP",
+	"09_CAPSTONE",
+	"10_SEMINARS"
+]
+
+[[board.item_lists]]
+name = "Class Activities"
+desc = "Assignments meant to be completed during class"
+
+[[board.item_lists.items]]
+name = "Time Card #5"
+label = "08_INTERNSHIP"
+due = 2024-04-21T23:59:00
+done = true
+in_progress = false
+
+[[board.item_lists.items.checklists]]
+name = "Shifts"
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Mar 26"
+due = 2024-03-26T14:00:00
+done = true
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Mar 28"
+due = 2024-03-28T14:00:00
+done = true
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Apr 9"
+due = 2024-04-09T14:00:00
+done = true
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Apr 11"
+due = 2024-04-11T14:00:00
+done = true
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Apr 16"
+due = 2024-04-16T14:00:00
+done = true
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Apr 18"
+due = 2024-04-18T14:00:00
+done = true
+
+[[board.item_lists.items]]
+name = "Time Card #6"
+label = "08_INTERNSHIP"
+due = 2024-05-05T23:59:00
+done = false
+in_progress = false
+
+[[board.item_lists.items.checklists]]
+name = "Shifts"
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Apr 23"
+due = 2024-04-23T14:00:00
+done = false
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Apr 25"
+due = 2024-04-25T14:00:00
+done = false
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Apr 30"
+due = 2024-04-30T14:00:00
+done = false
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "May 2"
+due = 2024-05-02T14:00:00
+done = false
+
+[[board.item_lists]]
+name = "Small Assignments"
+desc = "Assignments that should take an hour or two to complete"
+
+[[board.item_lists.items]]
+name = "Q4: Capstone Plan"
+label = "09_CAPSTONE"
+due = 2024-04-19T23:59:00
+done = false
+in_progress = false
+
+[[board.item_lists.items]]
+name = "Discussion Board [Week 14]"
+label = "00_ENGL_2200"
+due = 2024-04-22T23:59:00
+done = false
+in_progress = false
+
+[[board.item_lists]]
+name = "Large Assignments"
+desc = "Assignments that should take three or so hours to complete"
+
+[[board.item_lists.items]]
+name = "Unit 11 Lab: Solving Missionaries Cannibals"
+label = "01_CS_2420"
+due = 2024-04-22T23:59:00
+done = false
+in_progress = true
+
+[[board.item_lists.items]]
+name = "LinkedIn #6: Recommendations"
+label = "08_INTERNSHIP"
+due = 2024-04-28T23:59:00
+done = false
+in_progress = false
+
+[[board.item_lists.items]]
+name = "LinkedIn #7: Reflective Journaling & Posting"
+label = "08_INTERNSHIP"
+due = 2024-05-05T23:59:00
+done = false
+in_progress = false
+
+[[board.item_lists]]
+name = "Papers"
+desc = "Papers that need to be written"
+
+[[board.item_lists]]
+name = "Projects"
+desc = "Assignments that should take six to twelve hours to complete"
+
+[[board.item_lists.items]]
+name = "Women's History Biography"
+label = "04_HIST_1700"
+due = 2024-04-22T23:59:00
+done = false
+in_progress = true
+
+[[board.item_lists.items.checklists]]
+name = "Main Objectives"
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Pick a Biography"
+due = 2024-02-19T23:59:00
+done = true
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Read the Biography"
+due = 2024-04-19T23:59:00
+done = false
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Portrait"
+due = 2024-04-22T23:59:00
+done = false
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "10 Things I Learned"
+due = 2024-04-22T13:30:00
+done = false
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "10 Brown Bag Items"
+due = 2024-04-22T13:30:00
+done = false
+
+[[board.item_lists.items.checklists.checkboxes]]
+name = "Biography Critique"
+due = 2024-04-22T23:59:00
+done = false
+
+[[board.item_lists]]
+name = "Exams"
+desc = "Quizzes, tests, and exams"
+
+[[board.item_lists.items]]
+name = "Final Exam"
+label = "01_CS_2420"
+due = 2024-04-23T23:59:00
+done = false
+in_progress = false
+
+[[board.item_lists.items]]
+name = "Final Exam"
+label = "02_MATH_1220"
+due = 2024-04-24T14:50:00
+done = false
+in_progress = false
