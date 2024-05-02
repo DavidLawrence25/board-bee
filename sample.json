@@ -1,6 +1,315 @@
 {
-  "metadata": {
-    "version": -0.2590,
-    "something": true
-  }
+  "__metadata__": {
+    "board_bee_version": 0.0,
+    "name": "School",
+    "desc": "...",
+    "labels": {
+      "physics": 3,
+      "history": 4,
+      "gen_fin_lit": 6,
+      "english": 7,
+      "internship": 8,
+      "capstone": 9,
+      "seminars": 10
+    }
+  },
+  "items": [
+    {
+      "name": "Unit II: Practice Test",
+      "desc": "Thermodynamics",
+      "label": "physics",
+      "flags": {
+        "class": false,
+        "home": true,
+        "group": false,
+        "test": true
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-05-01 22:00:00",
+        "due": "2024-05-01 23:59:00"
+      },
+      "completion": 0.00
+    },
+    {
+      "name": "Unit III: Practice Test",
+      "desc": "Sound & Light",
+      "label": "physics",
+      "flags": {
+        "class": false,
+        "home": true,
+        "group": false,
+        "test": true
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-05-03 22:00:00",
+        "due": "2024-05-03 23:59:00"
+      },
+      "completion": 0.00
+    },
+    {
+      "name": "FE Problems (part 2)",
+      "desc": "A practice test with problems based on the final exam",
+      "label": "physics",
+      "flags": {
+        "class": false,
+        "home": true,
+        "group": false,
+        "test": true
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-05-05 22:00:00",
+        "due": "2024-05-05 22:00:00"
+      },
+      "completion": 0.00
+    },
+    {
+      "name": "Unit IV: Practice Test",
+      "desc": "Electricity & Magnetism",
+      "label": "physics",
+      "flags": {
+        "class": false,
+        "home": true,
+        "group": false,
+        "test": true
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-05-10 22:00:00",
+        "due": "2024-05-10 23:59:00"
+      },
+      "completion": 0.00
+    },
+    {
+      "name": "Final Exam",
+      "desc": "",
+      "label": "physics",
+      "flags": {
+        "class": true,
+        "home": false,
+        "group": false,
+        "test": true
+      },
+      "dates": {
+        "start_by": "2024-05-13 11:50:00",
+        "finish_by": "2024-05-13 13:20:00",
+        "due": "2024-05-13 13:20:00"
+      },
+      "completion": 0.00
+    },
+    {
+      "name": "Editorial (part 8)",
+      "desc": "Quotes, Summaries, & Hyperlinks",
+      "label": "english",
+      "flags": {
+        "class": true,
+        "home": true,
+        "group": false,
+        "test": false
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-04-30 11:50:00",
+        "due": "2024-04-20 23:59:00"
+      },
+      "completion": 0.25
+    },
+    {
+      "name": "Editorial (part 9)",
+      "desc": "Conclusion & Titles",
+      "label": "english",
+      "flags": {
+        "class": true,
+        "home": true,
+        "group": false,
+        "test": false
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-04-30 11:50:00",
+        "due": "2024-04-24 23:59:00"
+      },
+      "completion": 0.25
+    },
+    {
+      "name": "PFP (part 4)",
+      "desc": "Health Insurance, Utilities, & Bills Budget",
+      "label": "gen_fin_lit",
+      "flags": {
+        "class": true,
+        "home": true,
+        "group": false,
+        "test": false
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-04-30 09:15:00",
+        "due": "2024-04-28 23:59:00"
+      },
+      "completion": 0.00
+    },
+    {
+      "name": "LinkedIn Assignment (part 6)",
+      "desc": "Recommendations",
+      "label": "internship",
+      "flags": {
+        "class": false,
+        "home": true,
+        "group": false,
+        "test": false
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-04-29 23:59:00",
+        "due": "2024-04-28 23:59:00"
+      },
+      "completion": 0.125
+    },
+    {
+      "name": "Editorial (part 10)",
+      "desc": "Final Draft",
+      "label": "english",
+      "flags": {
+        "class": true,
+        "home": true,
+        "group": false,
+        "test": false
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-04-30 23:59:00",
+        "due": "2024-04-28 23:59:00"
+      },
+      "completion": 0.20
+    },
+    {
+      "name": "Personal Finance Lab (part 1)",
+      "desc": "Budgeting Game",
+      "label": "gen_fin_lit",
+      "flags": {
+        "class": true,
+        "home": true,
+        "group": false,
+        "test": false
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-05-02 22:00:00",
+        "due": "2024-05-02 23:59:00"
+      },
+      "completion": 0.67,
+      "checklist": {
+        "Apr 2024": true,
+        "May 2024": true,
+        "Jun 2024": true,
+        "Jul 2024": true,
+        "Aug 2024": true,
+        "Sep 2024": true,
+        "Oct 2024": true,
+        "Nov 2024": true,
+        "Dec 2024": false,
+        "Jan 2025": false,
+        "Feb 2025": false,
+        "Mar 2025": false
+      }
+    },
+    {
+      "name": "Personal Finance Lab (part 2)",
+      "desc": "Investments",
+      "label": "gen_fin_lit",
+      "flags": {
+        "class": true,
+        "home": true,
+        "group": false,
+        "test": false
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-05-02 22:00:00",
+        "due": "2024-05-02 23:59:00"
+      },
+      "completion": null
+    },
+    {
+      "name": "Insurance Quiz",
+      "desc": "",
+      "label": "gen_fin_lit",
+      "flags": {
+        "class": true,
+        "home": true,
+        "group": false,
+        "test": true
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-05-03 22:00:00",
+        "due": "2024-05-03 23:59:00"
+      },
+      "completion": 0.00
+    },
+    {
+      "name": "PFP (part 8)",
+      "desc": "Adult Budgeting Interview",
+      "label": "gen_fin_lit",
+      "flags": {
+        "class": false,
+        "home": true,
+        "group": false,
+        "test": false
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-05-05 20:00:00",
+        "due": "2024-05-05 23:59:00"
+      },
+      "completion": 0.00
+    },
+    {
+      "name": "PFP (part 9)",
+      "desc": "Final Budget & Reflection",
+      "label": "gen_fin_lit",
+      "flags": {
+        "class": true,
+        "home": true,
+        "group": false,
+        "test": false
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-05-10 22:00:00",
+        "due": "2024-05-10 23:59:00"
+      },
+      "completion": 0.00
+    },
+    {
+      "name": "PFP (part 10)",
+      "desc": "Maintaining a Budget & Final Reflection",
+      "label": "gen_fin_lit",
+      "flags": {
+        "class": true,
+        "home": true,
+        "group": false,
+        "test": false
+      },
+      "dates": {
+        "start_by": null,
+        "finish_by": "2024-05-15 22:00:00",
+        "due": "2024-05-15 23:59:00"
+      },
+      "completion": 0.00
+    }
+  ],
+  "events": [
+    {
+      "name": "Dual Enrollment Advising Meeting",
+      "dates": {
+        "start": "2024-05-06 09:00:00",
+        "end": "2024-05-06 10:00:00"
+      }
+    }
+  ],
+  "item_generators": [],
+  "event_generators": []
 }

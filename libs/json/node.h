@@ -9,8 +9,8 @@ namespace rose::json {
 
 class Node;
 
-using Object = std::map<str, sptr<Node>>;
-using Array = std::vector<sptr<Node>>;
+using Object = std::map<str, Node *>;
+using Array = std::vector<Node *>;
 
 class Node {
  public:
@@ -21,7 +21,7 @@ class Node {
 
     Object *object;
     Array *array;
-    str_view string;
+    const char *string;
     s64 n;
     f64 x;
     bool boolean;
@@ -34,7 +34,7 @@ class Node {
   explicit Node(const Array &array) : type_(Type::kArray) {
     value_.array = new Array(array);
   }
-  explicit Node(const str_view string) : type_(Type::kString) {
+  explicit Node(const char *string) : type_(Type::kString) {
     value_.string = string;
   }
   explicit Node(const s64 n) : type_(Type::kS64) { value_.n = n; }
@@ -49,8 +49,8 @@ class Node {
   opt<Array *> as_array() const {
     return is_array() ? mk_opt<Array *>(value_.array) : std::nullopt;
   }
-  opt<str_view> as_string() const {
-    return is_string() ? mk_opt<str_view>(value_.string) : std::nullopt;
+  opt<const char *> as_string() const {
+    return is_string() ? mk_opt<const char *>(value_.string) : std::nullopt;
   }
   opt<s64> as_s64() const {
     return is_s64() ? mk_opt<s64>(value_.n) : std::nullopt;
@@ -78,7 +78,7 @@ class Node {
     type_ = Type::kArray;
     value_.array = new Array(array);
   }
-  void set_value(const str_view string) {
+  void set_value(const char *string) {
     type_ = Type::kString;
     value_.string = string;
   }

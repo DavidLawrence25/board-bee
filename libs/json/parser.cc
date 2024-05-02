@@ -1,6 +1,7 @@
 #include <libs/json/parser.h>
 
 #include <libs/aliases.h>
+#include <libs/c_str_utils.h>
 #include <libs/json/node.h>
 #include <libs/json/tokenizer.h>
 
@@ -29,7 +30,7 @@ void Parser::Parse() {
   }
 }
 
-sptr<Node> Parser::ParseValue() {
+Node *Parser::ParseValue() {
   const opt<Token> token = Peek();
   if (!token) return nullptr;  // I'm not sold on this quite yet.
   if (token.value().type == Token::Type::kLCurly) return ParseObject();
@@ -41,7 +42,7 @@ sptr<Node> Parser::ParseValue() {
   throw std::runtime_error("Next token does not represent a value");
 }
 
-sptr<Node> Parser::ParseObject() {
+Node *Parser::ParseObject() {
   const opt<Token> root_curly = Peek();
   if (!root_curly || root_curly.value().type != Token::Type::kLCurly) {
     throw std::runtime_error("Tried to parse an object without '{'");
@@ -62,7 +63,8 @@ sptr<Node> Parser::ParseObject() {
       throw std::runtime_error(error_msg.str());
     }
     Consume();
-    object.emplace(token.value().value, ParseValue());
+    Node *value = ParseValue();
+    object.emplace(token.value().value, value);
     token = Peek();
     if (!token) throw std::runtime_error("Expected token after key-value pair");
     if (token.value().type == Token::Type::kComma) {
@@ -78,10 +80,12 @@ sptr<Node> Parser::ParseObject() {
     }
   }
   Consume();
-  return mk_sptr<Node>(object);
+  auto *object_node = allocator_->Allocate<Node>();
+  object_node->set_value(object);
+  return object_node;
 }
 
-sptr<Node> Parser::ParseArray() {
+Node *Parser::ParseArray() {
   const opt<Token> root_square = Peek();
   if (!root_square || root_square.value().type != Token::Type::kLSquare) {
     throw std::runtime_error("Tried to parse an object without '['");
@@ -110,37 +114,49 @@ sptr<Node> Parser::ParseArray() {
     }
   }
   Consume();
-  return mk_sptr<Node>(array);
+  auto *array_node = allocator_->Allocate<Node>();
+  array_node->set_value(array);
+  return array_node;
 }
 
-sptr<Node> Parser::ParseString() {
+Node *Parser::ParseString() {
   const opt<Token> token = Peek();
   if (!token || token.value().type != Token::Type::kString) return nullptr;
   Consume();
-  return mk_sptr<Node>(token.value().value);
+  auto *string_node = allocator_->Allocate<Node>();
+  string_node->set_value(token.value().value);
+  return string_node;
 }
 
-sptr<Node> Parser::ParseNumber() {
+Node *Parser::ParseNumber() {
   const opt<Token> token = Peek();
   if (!token || token.value().type != Token::Type::kNumber) return nullptr;
   Consume();
-  return token.value().value.contains('.')
-      ? mk_sptr<Node>(std::stod(token.value().value))
-      : mk_sptr<Node>(static_cast<s64>(std::stoi(token.value().value)));
+  auto *num_node = allocator_->Allocate<Node>();
+  if (Contains(token.value().value, '.')) {
+    num_node->set_value(std::stod(token.value().value));
+  } else {
+    num_node->set_value(static_cast<s64>(std::stoi(token.value().value)));
+  }
+  return num_node;
 }
 
-sptr<Node> Parser::ParseBoolean() {
+Node *Parser::ParseBoolean() {
   const opt<Token> token = Peek();
   if (!token || token.value().type != Token::Type::kBoolean) return nullptr;
   Consume();
-  return mk_sptr<Node>(token.value().value == "true");
+  auto *bool_node = allocator_->Allocate<Node>();
+  bool_node->set_value(*token.value().value == 't');
+  return bool_node;
 }
 
-sptr<Node> Parser::ParseNull() {
+Node *Parser::ParseNull() {
   const opt<Token> token = Peek();
   if (!token || token.value().type != Token::Type::kNull) return nullptr;
   Consume();
-  return mk_sptr<Node>();
+  auto *null_node = allocator_->Allocate<Node>();
+  null_node->set_value();
+  return null_node;
 }
 
 }  // namespace rose::json

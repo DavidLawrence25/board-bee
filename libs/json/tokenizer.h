@@ -2,17 +2,16 @@
 #define BOARD_BEE_LIBS_JSON_TOKENIZER_H_
 
 #include <libs/aliases.h>
+#include <libs/arena_allocator.h>
 
-#include <fstream>
+#include <istream>
 
 namespace rose::json {
 
 struct Token {
   enum class Type { kLCurly, kRCurly, kColon, kString, kNumber,
                     kLSquare, kRSquare, kComma, kBoolean, kNull } type;
-  str value;
-
-  str repr() const;
+  const char *value;
 
   bool IsValue() const {
     return type == Type::kLCurly || type == Type::kString
@@ -23,21 +22,21 @@ struct Token {
 
 class Tokenizer {
  public:
-  explicit Tokenizer(const str_view file_path)
-      : fin_(mk_uptr<std::ifstream>(file_path.data())) {}
-  explicit Tokenizer(uptr<std::ifstream> file_in) : fin_(std::move(file_in)) {}
+  Tokenizer(std::istream &input, const sptr<ArenaAllocator> &allocator)
+      : input_(input), allocator_(allocator) {}
 
   vector<Token> Tokenize();
 
  private:
-  opt<char> Peek(u32 offset = 1) const;
-  void Consume(u32 n = 1);
+  opt<char> Peek(std::streamoff offset = 1) const;
+  void Consume(std::streamoff n = 1);
 
   bool ReadKeyword(str_view keyword);
-  str ReadNumericLiteral();
-  str ReadStringLiteral();
+  const char *ReadNumericLiteral();
+  const char *ReadStringLiteral();
 
-  uptr<std::ifstream> fin_;
+  std::istream &input_;
+  sptr<ArenaAllocator> allocator_;
 };
 
 }  // namespace rose::json

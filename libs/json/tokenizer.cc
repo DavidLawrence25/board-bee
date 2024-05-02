@@ -1,28 +1,11 @@
 #include <libs/json/tokenizer.h>
 
 #include <libs/aliases.h>
+#include <libs/arena_allocator.h>
 
 #include <exception>
-#include <sstream>
 
 namespace rose::json {
-
-str Token::repr() const {
-  if (type == Type::kString) {
-    std::stringstream sout;
-    sout << '"' << value << '"';
-    return sout.str();
-  }
-  if (type == Type::kBoolean || type == Type::kNumber) return value;
-  if (type == Type::kNull) return "null";
-  if (type == Type::kColon) return ":";
-  if (type == Type::kComma) return ",";
-  if (type == Type::kLCurly) return "{";
-  if (type == Type::kRCurly) return "}";
-  if (type == Type::kLSquare) return "[";
-  if (type == Type::kRSquare) return "]";
-  throw std::runtime_error("what the f*ck");
-}
 
 vector<Token> Tokenizer::Tokenize() {
   vector<Token> tokens;
@@ -69,29 +52,40 @@ vector<Token> Tokenizer::Tokenize() {
   return tokens;
 }
 
-opt<char> Tokenizer::Peek(const u32 offset) const {
+opt<char> Tokenizer::Peek(const std::streamoff offset) const {
   if (offset == 0) return std::nullopt;
-  fin_->seekg(offset - 1, std::ios_base::cur);
-  const s32 c = fin_->get();
-  fin_->putback(static_cast<char>(c));
-  fin_->seekg(1 - static_cast<s64>(offset), std::ios_base::cur);
-  fin_->clear();
+  input_.seekg(offset - 1, std::ios_base::cur);
+  const s32 c = input_.get();
+  input_.putback(static_cast<char>(c));
+  input_.seekg(1 - offset, std::ios_base::cur);
+  input_.clear();
   return c == EOF ? std::nullopt : mk_opt<char>(c);
 }
 
-void Tokenizer::Consume(const u32 n) { fin_->seekg(n, std::ios_base::cur); }
+void Tokenizer::Consume(const std::streamoff n) {
+  input_.seekg(n, std::ios_base::cur);
+}
 
 bool Tokenizer::ReadKeyword(const str_view keyword) {
-  for (u64 i = 0; i < keyword.size(); ++i) {
+  for (u32 i = 0; i < keyword.size(); ++i) {
     const opt<char> c = Peek(i + 1);
     if (!c || c != keyword[i]) return false;
   }
   return true;
 }
 
-str Tokenizer::ReadNumericLiteral() {
+#define ALLOCATE_NEW_CHUNK_IF_FULL                                \
+if (chars_written >= buffer_capacity) {                           \
+  static_cast<void>(allocator_->Allocate<char>(kCharChunkSize));  \
+  buffer_capacity += kCharChunkSize;                              \
+}
+
+const char *Tokenizer::ReadNumericLiteral() {
+  static constexpr u64 kCharChunkSize = 4;
+  char *string_buffer = allocator_->Allocate<char>(kCharChunkSize);
+  size_t buffer_capacity = kCharChunkSize;
+  u64 chars_written = 0;
   opt<char> c = Peek();
-  std::stringstream sout;
   if (c == '0') {
     const opt<char> next = Peek(2);
     if (next && std::isdigit(next.value())) {
@@ -103,39 +97,51 @@ str Tokenizer::ReadNumericLiteral() {
     if (!next || !std::isdigit(next.value())) {
       throw std::runtime_error("Negative numbers must have a digit after '-'");
     }
-    sout << '-';
+    string_buffer[chars_written++] = '-';
+    ALLOCATE_NEW_CHUNK_IF_FULL;
     Consume();
     c = Peek();
   }
   while (c) {
     if (std::isdigit(c.value())) {
-      sout << c.value();
+      string_buffer[chars_written++] = c.value();
+      ALLOCATE_NEW_CHUNK_IF_FULL;
     } else if (c == '.') {
       const opt<char> next = Peek(2);
       if (!next || !std::isdigit(next.value())) {
         throw std::runtime_error("Decimals must be followed by a digit");
       }
-      sout << '.';
+      string_buffer[chars_written++] = '.';
+      ALLOCATE_NEW_CHUNK_IF_FULL;
     } else {
       break;
     }
     Consume();
     c = Peek();
   }
-  return sout.str();
+  string_buffer[chars_written] = '\0';
+  return string_buffer;
 }
 
-str Tokenizer::ReadStringLiteral() {
-  std::stringstream sout;
+const char *Tokenizer::ReadStringLiteral() {
+  static constexpr u64 kCharChunkSize = 8;
+  char *string_buffer = allocator_->Allocate<char>(kCharChunkSize);
+  size_t buffer_capacity = kCharChunkSize;
+  u64 chars_written = 0;
   while (const opt<char> c = Peek()) {
     Consume();
-    if (c == '"') return sout.str();
-    sout << c.value();
+    if (c == '"') {
+      string_buffer[chars_written] = '\0';
+      return string_buffer;
+    }
+    string_buffer[chars_written++] = c.value();
+    ALLOCATE_NEW_CHUNK_IF_FULL;
     if (c == '\\') {
       opt<char> escaped = Peek();
       if (!escaped.has_value()) break;
       Consume();
-      sout << escaped.value();
+      string_buffer[chars_written++] = escaped.value();
+      ALLOCATE_NEW_CHUNK_IF_FULL;
     }
   }
   throw std::runtime_error("Hit EOF before end of string literal");
