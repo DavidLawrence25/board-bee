@@ -1,4 +1,4 @@
-sources := libs/json/parser.cc libs/json/tokenizer.cc libs/json/writer.cc src/main.cc
+sources := libs/json/node.cc libs/json/parser.cc libs/json/tokenizer.cc libs/json/writer.cc src/main.cc
 
 all: main.exe
 

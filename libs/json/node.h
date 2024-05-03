@@ -1,66 +1,61 @@
 #ifndef BOARD_BEE_LIBS_JSON_NODE_H_
 #define BOARD_BEE_LIBS_JSON_NODE_H_
 
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/identity.hpp>
+#include <boost/multi_index/member.hpp>
+#include <boost/multi_index/ordered_index.hpp>
 #include <libs/aliases.h>
-
-#include <map>
 
 namespace rose::json {
 
 class Node;
 
-using Object = std::map<str, Node *>;
+struct Property {
+  const char *name;
+  Node *value;
+
+  bool operator<(const Property &other) const { return value < other.value; }
+};
+
+using namespace boost::multi_index;
+
+using Object = multi_index_container<
+    Property, indexed_by<
+        ordered_unique<identity<Property>>,
+        ordered_unique<member<Property, const char *, &Property::name>>
+    >>;
 using Array = std::vector<Node *>;
 
 class Node {
  public:
-  enum class Type { kObject, kArray, kString, kS64, kF64, kBool, kNull };
+  enum class Type { kNull, kBool, kS64, kF64, kString, kArray, kObject };
   union Values {
     Values() : boolean(false) {}
     ~Values() = default;
 
-    Object *object;
-    Array *array;
-    const char *string;
+    bool boolean;
     s64 n;
     f64 x;
-    bool boolean;
+    const char *string;
+    Array *array;
+    Object *object;
   };
 
   Node() : type_(Type::kNull) {}
-  explicit Node(const Object &object) : type_(Type::kObject) {
-    value_.object = new Object(object);
-  }
-  explicit Node(const Array &array) : type_(Type::kArray) {
-    value_.array = new Array(array);
-  }
-  explicit Node(const char *string) : type_(Type::kString) {
-    value_.string = string;
-  }
-  explicit Node(const s64 n) : type_(Type::kS64) { value_.n = n; }
-  explicit Node(const f64 x) : type_(Type::kF64) { value_.x = x; }
-  explicit Node(const bool boolean) : type_(Type::kBool) {
-    value_.boolean = boolean;
-  }
+  explicit Node(bool boolean);
+  explicit Node(s64 n);
+  explicit Node(f64 x);
+  explicit Node(const char *string);
+  explicit Node(const Array &array);
+  explicit Node(const Object &object);
 
-  opt<Object *> as_object() const {
-    return is_object() ? mk_opt<Object *>(value_.object) : std::nullopt;
-  }
-  opt<Array *> as_array() const {
-    return is_array() ? mk_opt<Array *>(value_.array) : std::nullopt;
-  }
-  opt<const char *> as_string() const {
-    return is_string() ? mk_opt<const char *>(value_.string) : std::nullopt;
-  }
-  opt<s64> as_s64() const {
-    return is_s64() ? mk_opt<s64>(value_.n) : std::nullopt;
-  }
-  opt<f64> as_f64() const {
-    return is_f64() ? mk_opt<f64>(value_.x) : std::nullopt;
-  }
-  opt<bool> as_bool() const {
-    return is_bool() ? mk_opt<bool>(value_.boolean) : std::nullopt;
-  }
+  opt<bool> as_bool() const;
+  opt<s64> as_s64() const;
+  opt<f64> as_f64() const;
+  opt<const char *> as_string() const;
+  opt<Array *> as_array() const;
+  opt<Object *> as_object() const;
 
   bool is_object() const { return type_ == Type::kObject; }
   bool is_array() const { return type_ == Type::kArray; }
@@ -70,37 +65,19 @@ class Node {
   bool is_bool() const { return type_ == Type::kBool; }
   bool is_null() const { return type_ == Type::kNull; }
 
-  void set_value(const Object &object) {
-    type_ = Type::kObject;
-    value_.object = new Object(object);
-  }
-  void set_value(const Array &array) {
-    type_ = Type::kArray;
-    value_.array = new Array(array);
-  }
-  void set_value(const char *string) {
-    type_ = Type::kString;
-    value_.string = string;
-  }
-  void set_value(const s64 n) {
-    type_ = Type::kS64;
-    value_.n = n;
-  }
-  void set_value(const f64 x) {
-    type_ = Type::kF64;
-    value_.x = x;
-  }
-  void set_value(const bool boolean) {
-    type_ = Type::kBool;
-    value_.boolean = boolean;
-  }
   void set_value() { type_ = Type::kNull; }
+  void set_value(bool boolean);
+  void set_value(s64 n);
+  void set_value(f64 x);
+  void set_value(const char *string);
+  void set_value(const Array &array);
+  void set_value(const Object &object);
 
  private:
   Type type_;
   Values value_;
 };
 
-}  // namespace rose::json
+} // namespace rose::json
 
 #endif  // BOARD_BEE_LIBS_JSON_NODE_H_
