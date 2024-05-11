@@ -1,7 +1,7 @@
-#include <libs/aliases.h>
-#include <libs/ansi.h>
-#include <libs/arena_allocator.h>
-#include <libs/json.h>
+#include <aliases.h>
+#include <ansi.h>
+#include <arena_allocator.h>
+#include <json.h>
 
 #include <fstream>
 #include <iostream>
