@@ -2,7 +2,6 @@
 #define BOARD_BEE_LIBS_ALIASES_H_
 
 #include <cstdint>
-#include <ctime>
 #include <memory>
 #include <optional>
 #include <string>
