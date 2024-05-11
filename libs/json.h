@@ -3,6 +3,7 @@
 
 #include <libs/json/node.h>
 #include <libs/json/parser.h>
+#include <libs/json/structure.h>
 #include <libs/json/tokenizer.h>
 #include <libs/json/writer.h>
 

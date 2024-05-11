@@ -1,7 +1,7 @@
 #ifndef BOARD_BEE_LIBS_ANSI_H_
 #define BOARD_BEE_LIBS_ANSI_H_
 
-#include <libs/aliases.h>
+#include "aliases.h"
 
 #include <array>
 #include <ostream>

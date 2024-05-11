@@ -49,6 +49,4 @@ using HashMap = std::unordered_map<K, V>;
 
 using std::vector;
 
-using DateTime = std::tm;
-
 #endif  // BOARD_BEE_SRC_ALIASES_H_

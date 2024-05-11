@@ -1,10 +1,10 @@
 #ifndef BOARD_BEE_LIBS_JSON_TOKENIZER_H_
 #define BOARD_BEE_LIBS_JSON_TOKENIZER_H_
 
-#include <libs/aliases.h>
-#include <libs/arena_allocator.h>
-
 #include <istream>
+
+#include "../aliases.h"
+#include "../arena_allocator.h"
 
 namespace rose::json {
 
