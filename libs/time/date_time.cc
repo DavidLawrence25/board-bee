@@ -4,16 +4,16 @@
 #include <regex>
 #include <sstream>
 
-#include "src/exceptions.h"
+#include "exceptions.h"
 
-namespace bee {
+namespace rose::time {
 
 DateTime::DateTime(const str &iso_string) {
   std::smatch match_results;
   if (!std::regex_match(iso_string, match_results, kSimpleIso8601)) {
     std::stringstream error_msg;
     error_msg << "String \"" << iso_string
-              << "\" is not compliant with ISO-8601";
+              << "\" is not compliant with ISO 8601";
     throw BadDateTimeException(error_msg.str());
   }
   year_ = atoi(match_results[1].str().c_str());
@@ -46,16 +46,12 @@ DateTime::DateTime(const str &iso_string) {
   second_ = atoi(match_results[6].str().c_str());
   if (second_ > 60) {
     std::stringstream error_msg;
-    // We didn't ignore leap seconds in the condition because we won't ever
-    // check for them if we did that, but we're ignoring them in the error
-    // message to avoid consulting the leap second table. They're too rare and
-    // too old to really worry about for some error messages in this project.
-    error_msg << "Second " << second_ << " is not on the interval [0, 59]";
+    error_msg << "Second " << second_ << " is not on the interval [0, 60]";
     throw BadDateTimeException(error_msg.str());
   }
   if (hour_ != 23 || minute_ != 59 || second_ != 60 || HasLeapSecond()) return;
   std::stringstream error_msg;
-  error_msg << DateString() << " did not have a leap second";
+  error_msg << NiceDateString() << " did not have a leap second";
   throw BadDateTimeException(error_msg.str());
 }
 
@@ -104,6 +100,21 @@ u8 DateTime::DaysInMonth(const u16 year, const u8 month) {
 }
 
 str DateTime::DateString() const {
+  char out[9] = "00000000";
+  out[0] += year_ / 1000;          // NOLINT(*-narrowing-conversions)
+  out[1] += (year_ % 1000) / 100;  // NOLINT(*-narrowing-conversions)
+  out[2] += (year_ % 100) / 10;    // NOLINT(*-narrowing-conversions)
+  out[3] += year_ % 10;            // NOLINT(*-narrowing-conversions)
+  const auto &[month_quotient, month_remainder] = std::div(month_, 10);
+  out[4] += month_quotient;   // NOLINT(*-narrowing-conversions)
+  out[5] += month_remainder;  // NOLINT(*-narrowing-conversions)
+  const auto &[day_quotient, day_remainder] = std::div(day_, 10);
+  out[6] += day_quotient;   // NOLINT(*-narrowing-conversions)
+  out[7] += day_remainder;  // NOLINT(*-narrowing-conversions)
+  return out;
+}
+
+str DateTime::NiceDateString() const {
   char out[11] = "0000-00-00";
   out[0] += year_ / 1000;          // NOLINT(*-narrowing-conversions)
   out[1] += (year_ % 1000) / 100;  // NOLINT(*-narrowing-conversions)
@@ -119,24 +130,44 @@ str DateTime::DateString() const {
 }
 
 str DateTime::TimeString() const {
-  char out[9] = "00:00:00";
+  char out[9] = "T000000Z";
   const auto &[hour_quotient, hour_remainder] = std::div(hour_, 10);
-  out[0] += hour_quotient;   // NOLINT(*-narrowing-conversions)
-  out[1] += hour_remainder;  // NOLINT(*-narrowing-conversions)
+  out[1] += hour_quotient;   // NOLINT(*-narrowing-conversions)
+  out[2] += hour_remainder;  // NOLINT(*-narrowing-conversions)
   const auto &[minute_quotient, minute_remainder] = std::div(minute_, 10);
   out[3] += minute_quotient;   // NOLINT(*-narrowing-conversions)
   out[4] += minute_remainder;  // NOLINT(*-narrowing-conversions)
   const auto &[second_quotient, second_remainder] = std::div(second_, 10);
-  out[6] += second_quotient;   // NOLINT(*-narrowing-conversions)
-  out[7] += second_remainder;  // NOLINT(*-narrowing-conversions)
+  out[5] += second_quotient;   // NOLINT(*-narrowing-conversions)
+  out[6] += second_remainder;  // NOLINT(*-narrowing-conversions)
   return out;
 }
 
-DateTime::operator str() const {
-  char out[20];
-  strncpy(out, DateString().c_str(), 10);
-  out[10] = ' ';
+str DateTime::NiceTimeString() const {
+  char out[11] = "T00:00:00Z";
+  const auto &[hour_quotient, hour_remainder] = std::div(hour_, 10);
+  out[1] += hour_quotient;   // NOLINT(*-narrowing-conversions)
+  out[2] += hour_remainder;  // NOLINT(*-narrowing-conversions)
+  const auto &[minute_quotient, minute_remainder] = std::div(minute_, 10);
+  out[4] += minute_quotient;   // NOLINT(*-narrowing-conversions)
+  out[5] += minute_remainder;  // NOLINT(*-narrowing-conversions)
+  const auto &[second_quotient, second_remainder] = std::div(second_, 10);
+  out[7] += second_quotient;   // NOLINT(*-narrowing-conversions)
+  out[8] += second_remainder;  // NOLINT(*-narrowing-conversions)
+  return out;
+}
+
+str DateTime::AsString() const {
+  char out[17];
+  strncpy(out, DateString().c_str(), 8);
   strncat(out, TimeString().c_str(), 8);
+  return out;
+}
+
+str DateTime::AsNiceString() const {
+  char out[21];
+  strncpy(out, NiceDateString().c_str(), 10);
+  strncat(out, NiceTimeString().c_str(), 10);
   return out;
 }
 

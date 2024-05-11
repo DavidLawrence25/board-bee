@@ -1,8 +1,13 @@
 #include "event.h"
 
+#include <aliases.h>
+#include <json.h>
+#include <rose_time.h>
+
 namespace bee {
 
 using namespace rose::json;
+using namespace rose::time;
 
 bool Event::Dates::MatchesStructure(const Node &node) {
   return structure()->Matches(node);

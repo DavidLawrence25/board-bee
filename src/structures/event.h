@@ -3,8 +3,7 @@
 
 #include <aliases.h>
 #include <json.h>
-
-#include "date_time.h"
+#include <rose_time.h>
 
 namespace bee {
 
@@ -12,19 +11,19 @@ class Event {
  public:
   class Dates {
    public:
-    Dates(const DateTime start, const DateTime end) : start_(start),
-                                                      end_(end) {}
+    Dates(const rose::time::DateTime start, const rose::time::DateTime end)
+        : start_(start), end_(end) {}
 
-    DateTime start() const { return start_; }
-    DateTime end() const { return end_; }
+    rose::time::DateTime start() const { return start_; }
+    rose::time::DateTime end() const { return end_; }
 
     static bool MatchesStructure(const rose::json::Node &node);
 
    private:
     static const rose::json::ObjectStructure *structure();
 
-    DateTime start_;
-    DateTime end_;
+    rose::time::DateTime start_;
+    rose::time::DateTime end_;
     inline static const rose::json::ObjectStructure *structure_ = nullptr;
   };
 

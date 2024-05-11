@@ -3,8 +3,8 @@
 
 #include <aliases.h>
 #include <json.h>
+#include <rose_time.h>
 
-#include "date_time.h"
 #include "flags.h"
 
 namespace bee {
@@ -13,23 +13,24 @@ class Item {
  public:
   class Dates {
    public:
-    Dates(const DateTime finish_by, const DateTime due) : finish_by_(finish_by),
-                                                          due_(due) {}
-    Dates(const DateTime start_by, const DateTime finish_by, const DateTime due)
+    Dates(const rose::time::DateTime finish_by, const rose::time::DateTime due)
+        : finish_by_(finish_by), due_(due) {}
+    Dates(const rose::time::DateTime start_by,
+          const rose::time::DateTime finish_by, const rose::time::DateTime due)
         : start_by_(start_by), finish_by_(finish_by), due_(due) {}
 
-    opt<DateTime> start_by() const { return start_by_; }
-    DateTime finish_by() const { return finish_by_; }
-    DateTime due() const { return due_; }
+    opt<rose::time::DateTime> start_by() const { return start_by_; }
+    rose::time::DateTime finish_by() const { return finish_by_; }
+    rose::time::DateTime due() const { return due_; }
 
     static bool MatchesStructure(const rose::json::Node &node);
 
    private:
     static const rose::json::ObjectStructure *structure();
 
-    opt<DateTime> start_by_;
-    DateTime finish_by_;
-    DateTime due_;
+    opt<rose::time::DateTime> start_by_;
+    rose::time::DateTime finish_by_;
+    rose::time::DateTime due_;
     inline static const rose::json::ObjectStructure *structure_ = nullptr;
   };
 

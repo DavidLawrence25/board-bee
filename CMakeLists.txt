@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_subdirectory(libs)
 
-set(structures "src/structures/board.cc" "src/structures/date_time.cc"
+set(structures "src/structures/board.cc" "libs/time/date_time.cc"
     "src/structures/event.cc" "src/structures/flags.cc"
     "src/structures/item.cc")
 

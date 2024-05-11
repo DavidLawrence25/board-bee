@@ -1,19 +1,19 @@
-#ifndef BOARD_BEE_SRC_STRUCTURES_DATE_TIME_H_
-#define BOARD_BEE_SRC_STRUCTURES_DATE_TIME_H_
+#ifndef BOARD_BEE_LIBS_TIME_DATE_TIME_H_
+#define BOARD_BEE_LIBS_TIME_DATE_TIME_H_
 
 #include <aliases.h>
 #include <json.h>
 
 #include <regex>
 
-namespace bee {
+namespace rose::time {
 
 static const std::regex kSimpleIso8601(
-    R"~~(^(\d{4})-([0-1]\d)-([0-3]\d)(?: |T)([0-2]\d):([0-5]\d):([0-6]\d)$)~~");
+    R"~~(^(\d{4})-([0-1]\d)-([0-3]\d)T([0-2]\d):([0-5]\d):([0-6]\d)Z$)~~");
 
 class DateTime {
  public:
-  static DateTime FromJson(const rose::json::Node &node);
+  static DateTime FromJson(const json::Node &node);
 
   explicit DateTime(const str &iso_string);
 
@@ -31,11 +31,14 @@ class DateTime {
   bool IsLeapYear() const { return IsLeapYear(year_); }
   bool HasLeapSecond() const { return HasLeapSecond(year_, month_, day_); }
   u8 DaysInMonth() const { return DaysInMonth(year_, month_); }
-  rose::json::Node ToJson() const;
+  json::Node ToJson() const;
 
   str DateString() const;
+  str NiceDateString() const;
   str TimeString() const;
-  explicit operator str() const;
+  str NiceTimeString() const;
+  str AsString() const;
+  str AsNiceString() const;
 
  private:
   u16 year_ : 14;
@@ -46,6 +49,6 @@ class DateTime {
   u8 second_ : 6;
 };
 
-}  // namespace bee
+}  // namespace rose::time
 
-#endif  // BOARD_BEE_SRC_STRUCTURES_DATE_TIME_H_
+#endif  // BOARD_BEE_LIBS_TIME_DATE_TIME_H_

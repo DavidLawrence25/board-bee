@@ -1,9 +1,9 @@
-#ifndef BOARD_BEE_SRC_EXCEPTIONS_H_
-#define BOARD_BEE_SRC_EXCEPTIONS_H_
+#ifndef BOARD_BEE_LIBS_TIME_EXCEPTIONS_H_
+#define BOARD_BEE_LIBS_TIME_EXCEPTIONS_H_
 
 #include <exception>
 
-namespace bee {
+namespace rose::time {
 
 class BadDateTimeException final : public std::exception {
  public:
@@ -18,6 +18,6 @@ class BadDateTimeException final : public std::exception {
   const char *what_;
 };
 
-}  // namespace bee
+}  // namespace rose::time
 
-#endif  // BOARD_BEE_SRC_EXCEPTIONS_H_
+#endif  // BOARD_BEE_LIBS_TIME_EXCEPTIONS_H_

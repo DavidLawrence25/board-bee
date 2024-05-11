@@ -1,10 +1,15 @@
 #include "item.h"
 
+#include <aliases.h>
 #include <json.h>
+#include <rose_time.h>
+
+#include "flags.h"
 
 namespace bee {
 
 using namespace rose::json;
+using namespace rose::time;
 
 bool Item::Dates::MatchesStructure(const Node &node) {
   return structure()->Matches(node);

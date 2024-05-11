@@ -1,5 +1,8 @@
 #include "flags.h"
 
+#include <aliases.h>
+#include <json.h>
+
 namespace bee {
 
 using namespace rose::json;
