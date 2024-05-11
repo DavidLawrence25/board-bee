@@ -11,7 +11,13 @@
       "internship": 8,
       "capstone": 9,
       "seminars": 10
-    }
+    },
+    "flags": [
+      "class",
+      "home",
+      "group",
+      "test"
+    ]
   },
   "items": [
     {
@@ -66,57 +72,6 @@
       "completion": 0.20
     },
     {
-      "name": "Research for the Signature Essay",
-      "desc": "...",
-      "label": "history",
-      "flags": {
-        "class": null,
-        "home": null,
-        "group": false,
-        "test": false
-      },
-      "dates": {
-        "start_by": null,
-        "finish_by": "2024-05-06 22:00:00",
-        "due": "2024-05-06 23:59:00"
-      },
-      "completion": 0.00
-    },
-    {
-      "name": "Unit IV: Practice Test",
-      "desc": "Electricity & Magnetism",
-      "label": "physics",
-      "flags": {
-        "class": false,
-        "home": true,
-        "group": false,
-        "test": true
-      },
-      "dates": {
-        "start_by": null,
-        "finish_by": "2024-05-10 22:00:00",
-        "due": "2024-05-10 23:59:00"
-      },
-      "completion": 0.00
-    },
-    {
-      "name": "PFP (part 9)",
-      "desc": "Final Budget & Reflection",
-      "label": "gen_fin_lit",
-      "flags": {
-        "class": true,
-        "home": true,
-        "group": false,
-        "test": false
-      },
-      "dates": {
-        "start_by": null,
-        "finish_by": "2024-05-10 22:00:00",
-        "due": "2024-05-10 23:59:00"
-      },
-      "completion": 0.00
-    },
-    {
       "name": "Final Exam",
       "desc": "",
       "label": "physics",
@@ -134,19 +89,36 @@
       "completion": 0.00
     },
     {
-      "name": "PFP (part 10)",
-      "desc": "Maintaining a Budget & Final Reflection",
-      "label": "gen_fin_lit",
+      "name": "Signature Essay (part 2)",
+      "desc": "Rough Draft",
+      "label": "history",
       "flags": {
-        "class": true,
+        "class": false,
         "home": true,
         "group": false,
         "test": false
       },
       "dates": {
-        "start_by": null,
-        "finish_by": "2024-05-15 22:00:00",
-        "due": "2024-05-15 23:59:00"
+        "start_by": "2024-05-08 16:00:00",
+        "finish_by": "2024-05-13 10:15:00",
+        "due": "2024-05-13 13:30:00"
+      },
+      "completion": 0.00
+    },
+    {
+      "name": "Signature Essay (part 3)",
+      "desc": "Peer Review",
+      "label": "history",
+      "flags": {
+        "class": true,
+        "home": false,
+        "group": true,
+        "test": false
+      },
+      "dates": {
+        "start_by": "2024-05-13 13:30:00",
+        "finish_by": "2024-05-13 15:00:00",
+        "due": "2024-05-13 23:59:00"
       },
       "completion": 0.00
     }
@@ -161,5 +133,38 @@
     }
   ],
   "item_generators": [],
-  "event_generators": []
+  "event_generators": [
+    "https://www.kanzaki.com/docs/ical/rrule.html",
+    {
+      "name": "Thanksgiving",
+      "start_dates": {
+        "start": "1941-11-27 00:00:00",
+        "end": "1941-11-27 23:59:59"
+      },
+      "recurrence_rule": {
+        "frequency_mode": "yearly",
+        "filters": {
+          "months": [11],
+          "weekdays": ["thursday"],
+          "set_pos": [4]
+        }
+      }
+    },
+    {
+      "name": "Election Day",
+      "start_dates": {
+        "start": "1996-11-05 00:00:00",
+        "end": "1996-11-05 23:59:59"
+      },
+      "recurrence_rule": {
+        "frequency_mode": "yearly",
+        "interval": 4,
+        "filters": {
+          "months": [11],
+          "weekdays": ["tuesday"],
+          "month_days": [2, 3, 4, 5, 6, 7, 8]
+        }
+      }
+    }
+  ]
 }

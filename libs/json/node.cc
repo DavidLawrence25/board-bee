@@ -1,4 +1,4 @@
-#include <libs/json/node.h>
+#include "node.h"
 
 namespace rose::json {
 
@@ -24,6 +24,19 @@ Node::Node(const Array &array) : type_(Type::kArray) {
 
 Node::Node(const Object &object) : type_(Type::kObject) {
   value_.object = new Object(object);
+}
+
+const char* Node::type_name() const {
+  switch (type_) {
+    case Type::kNull: return "null";
+    case Type::kBool: return "bool";
+    case Type::kS64: return "s64";
+    case Type::kF64: return "f64";
+    case Type::kString: return "str";
+    case Type::kArray: return "Array";
+    case Type::kObject: return "Object";
+  }
+  throw std::runtime_error("what the f*ck");
 }
 
 opt<bool> Node::as_bool() const {

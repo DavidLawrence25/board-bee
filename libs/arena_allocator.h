@@ -1,7 +1,7 @@
 #ifndef BOARD_BEE_LIBS_ARENA_ALLOCATOR_H_
 #define BOARD_BEE_LIBS_ARENA_ALLOCATOR_H_
 
-#include <libs/aliases.h>
+#include "aliases.h"
 
 #include <functional>  // I don't know why they put std::byte here.
 #include <sstream>

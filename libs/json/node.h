@@ -5,7 +5,8 @@
 #include <boost/multi_index/identity.hpp>
 #include <boost/multi_index/member.hpp>
 #include <boost/multi_index/ordered_index.hpp>
-#include <libs/aliases.h>
+
+#include "../aliases.h"
 
 namespace rose::json {
 
@@ -49,6 +50,8 @@ class Node {
   explicit Node(const char *string);
   explicit Node(const Array &array);
   explicit Node(const Object &object);
+
+  const char *type_name() const;
 
   opt<bool> as_bool() const;
   opt<s64> as_s64() const;

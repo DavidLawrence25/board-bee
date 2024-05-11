@@ -1,11 +1,11 @@
-#include <libs/json/parser.h>
-
-#include <libs/aliases.h>
-#include <libs/c_str_utils.h>
-#include <libs/json/node.h>
-#include <libs/json/tokenizer.h>
+#include "parser.h"
 
 #include <sstream>
+
+#include "../aliases.h"
+#include "../c_str_utils.h"
+#include "node.h"
+#include "tokenizer.h"
 
 namespace rose::json {
 

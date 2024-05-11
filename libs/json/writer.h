@@ -1,10 +1,10 @@
 #ifndef BOARD_BEE_LIBS_JSON_WRITER_H_
 #define BOARD_BEE_LIBS_JSON_WRITER_H_
 
-#include <libs/aliases.h>
-#include <libs/json/node.h>
-
 #include <ostream>
+
+#include "../aliases.h"
+#include "node.h"
 
 namespace rose::json {
 

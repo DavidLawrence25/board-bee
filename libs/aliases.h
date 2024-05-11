@@ -1,5 +1,5 @@
-#ifndef BOARD_BEE_SRC_ALIASES_H_
-#define BOARD_BEE_SRC_ALIASES_H_
+#ifndef BOARD_BEE_LIBS_ALIASES_H_
+#define BOARD_BEE_LIBS_ALIASES_H_
 
 #include <cstdint>
 #include <ctime>
@@ -49,6 +49,4 @@ using HashMap = std::unordered_map<K, V>;
 
 using std::vector;
 
-using DateTime = std::tm;
-
-#endif  // BOARD_BEE_SRC_ALIASES_H_
+#endif  // BOARD_BEE_LIBS_ALIASES_H_
