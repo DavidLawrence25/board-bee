@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema#",
+  "title": "Metadata",
+  "description": "Basic information about the Board",
+  "type": "object",
+  "properties": {
+    "board_bee_version": {
+      "description": "The version of BoardBee to use when parsing the file",
+      "type": "number",
+      "minimum": 0.0
+    },
+    "name": {
+      "description": "The Board's name",
+      "type": "string",
+      "minLength": 1
+    },
+    "desc": {
+      "description": "The Board's description",
+      "type": "string"
+    },
+    "labels": {
+      "description": "A pseudo-enum of labels to use in this Board",
+      "type": "object",
+      "properties": {
+        "type": "integer"
+      }
+    },
+    "flags": {
+      "description": "An array of boolean flag names to use in this Board",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "uniqueItems": true
+      }
+    }
+  },
+  "required": [
+    "board_bee_version",
+    "name",
+    "flags"
+  ],
+  "additionalProperties": false
+}

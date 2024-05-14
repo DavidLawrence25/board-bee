@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema#",
+  "title": "Event",
+  "description": "BoardBee Event",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "The Event's name",
+      "type": "string",
+      "minLength": 1
+    },
+    "desc": {
+      "description": "The Event's description",
+      "type": "string"
+    },
+    "label": {
+      "description": "A label to categorize this Event with",
+      "type": "string",
+      "minLength": 1
+    },
+    "dates": {
+      "description": "When this Event starts and ends",
+      "type": "object",
+      "properties": {
+        "start": {
+          "description": "When this Event starts",
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "description": "When this Event ends",
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "name",
+    "dates"
+  ],
+  "additionalProperties": false
+}

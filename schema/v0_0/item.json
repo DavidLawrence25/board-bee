@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema#",
+  "title": "Item",
+  "description": "BoardBee Item",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "The Item's name",
+      "type": "string",
+      "minLength": 1
+    },
+    "desc": {
+      "description": "The Item's description",
+      "type": "string"
+    },
+    "label": {
+      "description": "A label to categorize this Item with",
+      "type": "string",
+      "minLength": 1
+    },
+    "flags": {
+      "description": "Boolean flags describing this Item's structure",
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "dates": {
+      "description": "Important DateTime information for this Item",
+      "type": "object",
+      "properties": {
+        "start_by": {
+          "description": "When this Item should have some progress by",
+          "type": "string",
+          "format": "date-time"
+        },
+        "finish_by": {
+          "description": "When this Item should be done by",
+          "type": "string",
+          "format": "date-time"
+        },
+        "due": {
+          "description": "When this Item is due",
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "finish_by",
+        "due"
+      ],
+      "additionalProperties": false
+    },
+    "completion": {
+      "description": "How much of this Item has been completed",
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "checklist": {
+      "description": "Simple subtasks for this Item",
+      "type": "object",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    }
+  },
+  "required": [
+    "name",
+    "flags"
+  ],
+  "additionalProperties": false
+}

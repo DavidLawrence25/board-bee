@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema#",
+  "title": "Board",
+  "description": "...",
+  "type": "object",
+  "properties": {
+    "__metadata__": {
+      "$ref": "./metadata.json"
+    },
+    "items": {
+      "description": "An array of Item objects",
+      "type": "array",
+      "items": {
+        "$ref": "./item.json"
+      }
+    },
+    "events": {
+      "description": "An array of Event objects",
+      "type": "array",
+      "items": {
+        "$ref": "./event.json"
+      }
+    },
+    "item_generators": {
+      "description": "An array of ItemGenerator objects",
+      "type": "array"
+    },
+    "event_generators": {
+      "description": "An array of EventGenerator objects",
+      "type": "array"
+    }
+  },
+  "required": [
+    "__metadata__",
+    "items",
+    "events",
+    "item_generators",
+    "event_generators"
+  ],
+  "additionalProperties": false
+}
