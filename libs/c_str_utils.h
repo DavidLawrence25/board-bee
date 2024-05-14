@@ -7,11 +7,7 @@
 namespace rose {
 
 constexpr bool Contains(const char *string, const char c) {
-  if (string == nullptr) return false;
-  for (const char *ptr = string; *ptr != '\0'; ++ptr) {
-    if (*ptr == c) return true;
-  }
-  return false;
+  return string && strchr(string, c);
 }
 
 constexpr bool SetContains(const std::set<const char *> &set,
