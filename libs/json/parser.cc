@@ -4,6 +4,7 @@
 
 #include "../aliases.h"
 #include "../c_str_utils.h"
+#include "exceptions.h"
 #include "node.h"
 #include "tokenizer.h"
 
@@ -20,13 +21,13 @@ void Parser::Consume(const u32 n) {
 
 void Parser::Parse() {
   const opt<Token> first = Peek();
-  if (!first) throw std::runtime_error("Can't parse nothing");
+  if (!first) throw MissingTokenError("Can't parse nothing");
   if (first.value().type == Token::Type::kLCurly) {
     root_ = ParseObject();
   } else if (first.value().type == Token::Type::kLSquare) {
     root_ = ParseArray();
   } else {
-    throw std::runtime_error("JSON files must be objects or arrays");
+    throw WrongTokenTypeError("JSON files must be objects or arrays");
   }
 }
 
@@ -39,44 +40,50 @@ Node *Parser::ParseValue() {
   if (token.value().type == Token::Type::kLSquare) return ParseArray();
   if (token.value().type == Token::Type::kBoolean) return ParseBoolean();
   if (token.value().type == Token::Type::kNull) return ParseNull();
-  throw std::runtime_error("Next token does not represent a value");
+  throw WrongTokenTypeError("Next token does not represent a value");
 }
 
 Node *Parser::ParseObject() {
   const opt<Token> root_curly = Peek();
-  if (!root_curly || root_curly.value().type != Token::Type::kLCurly) {
-    throw std::runtime_error("Tried to parse an object without '{'");
+  if (!root_curly) throw MissingTokenError();
+  if (root_curly.value().type != Token::Type::kLCurly) {
+    throw WrongTokenTypeError("Expected '{' at start of object Node");
   }
   Consume();
   Object object;
   opt<Token> token = Peek();
-  if (!token) throw std::runtime_error("Expected token after '{'");
+  if (!token) throw MissingTokenError("Expected Token after '{'");
   while (token.value().type != Token::Type::kRCurly) {
     if (token.value().type != Token::Type::kString) {
-      throw std::runtime_error("Expected '}' or key-value pair after '{'");
+      throw WrongTokenTypeError("Expected '}' or key-value pair after '{'");
     }
     Consume();
     const opt<Token> colon = Peek();
-    if (!colon || colon.value().type != Token::Type::kColon) {
+    if (!colon) {
+      std::stringstream error_msg;
+      error_msg << "Expected Token after key \"" << token.value().value << '"';
+      throw MissingTokenError(error_msg.str());
+    }
+    if (colon.value().type != Token::Type::kColon) {
       std::stringstream error_msg;
       error_msg << "Expected ':' after key \"" << token.value().value << '"';
-      throw std::runtime_error(error_msg.str());
+      throw WrongTokenTypeError(error_msg.str());
     }
     Consume();
     Node *value = ParseValue();
     object.emplace(token.value().value, value);
     token = Peek();
-    if (!token) throw std::runtime_error("Expected token after key-value pair");
+    if (!token) throw MissingTokenError("Expected Token after key-value pair");
     if (token.value().type == Token::Type::kComma) {
       const opt<Token> lookahead = Peek(2);
-      if (!lookahead) throw std::runtime_error("Expected token after ','");
+      if (!lookahead) throw MissingTokenError("Expected Token after ','");
       if (lookahead.value().type == Token::Type::kRCurly) {
-        throw std::runtime_error("Trailing commas are not allowed");
+        throw WrongTokenTypeError("Trailing commas are not allowed");
       }
       Consume();
       token = lookahead;
     } else if (token.value().IsValue()) {
-      throw std::runtime_error("Key-value pairs must be comma-delimited");
+      throw WrongTokenTypeError("Key-value pairs must be comma-delimited");
     }
   }
   Consume();
@@ -87,30 +94,31 @@ Node *Parser::ParseObject() {
 
 Node *Parser::ParseArray() {
   const opt<Token> root_square = Peek();
-  if (!root_square || root_square.value().type != Token::Type::kLSquare) {
-    throw std::runtime_error("Tried to parse an object without '['");
+  if (!root_square) throw MissingTokenError();
+  if (root_square.value().type != Token::Type::kLSquare) {
+    throw WrongTokenTypeError("Expected '[' at start of array Node");
   }
   Consume();
   Array array;
   opt<Token> token = Peek();
-  if (!token) throw std::runtime_error("Expected token after '['");
+  if (!token) throw MissingTokenError("Expected Token after '['");
   while (token.value().type != Token::Type::kRSquare) {
     if (!token.value().IsValue()) {
-      throw std::runtime_error("Expected ']' or value after '['");
+      throw WrongTokenTypeError("Expected ']' or value after '['");
     }
     array.emplace_back(ParseValue());
     token = Peek();
-    if (!token) throw std::runtime_error("Expected token after value");
+    if (!token) throw MissingTokenError("Expected token after value");
     if (token.value().type == Token::Type::kComma) {
       const opt<Token> lookahead = Peek(2);
-      if (!lookahead) throw std::runtime_error("Expected token after ','");
+      if (!lookahead) throw MissingTokenError("Expected token after ','");
       if (lookahead.value().type == Token::Type::kRSquare) {
-        throw std::runtime_error("Trailing commas are not allowed");
+        throw WrongTokenTypeError("Trailing commas are not allowed");
       }
       Consume();
       token = lookahead;
     } else if (token.value().IsValue()) {
-      throw std::runtime_error("Values must be comma-delimited");
+      throw WrongTokenTypeError("Values must be comma-delimited");
     }
   }
   Consume();

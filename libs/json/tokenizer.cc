@@ -1,9 +1,11 @@
 #include "tokenizer.h"
 
 #include <exception>
+#include <sstream>
 
 #include "../aliases.h"
 #include "../arena_allocator.h"
+#include "exceptions.h"
 
 namespace rose::json {
 
@@ -46,7 +48,7 @@ vector<Token> Tokenizer::Tokenize() {
     } else if (c == ']') {
       tokens.emplace_back(Token::Type::kRSquare);
     } else {
-      throw std::runtime_error("Tokenization failed");
+      throw TokenizationError();
     }
   }
   return tokens;
@@ -89,13 +91,13 @@ const char *Tokenizer::ReadNumericLiteral() {
   if (c == '0') {
     const opt<char> next = Peek(2);
     if (next && std::isdigit(next.value())) {
-      throw std::runtime_error("Numeric literals cannot start with '0' "
-                               "immediately followed by another digit");
+      throw TokenizationError("Numeric literals cannot start with '0' "
+                              "immediately followed by another digit");
     }
   } else if (c == '-') {
     const opt<char> next = Peek(2);
     if (!next || !std::isdigit(next.value())) {
-      throw std::runtime_error("Negative numbers must have a digit after '-'");
+      throw TokenizationError("Negative numbers must have a digit after '-'");
     }
     string_buffer[chars_written++] = '-';
     ALLOCATE_NEW_CHUNK_IF_FULL;
@@ -109,7 +111,7 @@ const char *Tokenizer::ReadNumericLiteral() {
     } else if (c == '.') {
       const opt<char> next = Peek(2);
       if (!next || !std::isdigit(next.value())) {
-        throw std::runtime_error("Decimals must be followed by a digit");
+        throw TokenizationError("Decimals must be followed by a digit");
       }
       string_buffer[chars_written++] = '.';
       ALLOCATE_NEW_CHUNK_IF_FULL;
@@ -144,7 +146,7 @@ const char *Tokenizer::ReadStringLiteral() {
       ALLOCATE_NEW_CHUNK_IF_FULL;
     }
   }
-  throw std::runtime_error("Hit EOF before end of string literal");
+  throw TokenizationError("Hit EOF before end of string literal");
 }
 
 } // namespace rose::json

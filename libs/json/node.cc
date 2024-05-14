@@ -1,5 +1,9 @@
 #include "node.h"
 
+#include <sstream>
+
+#include "exceptions.h"
+
 namespace rose::json {
 
 Node::Node(const bool boolean) : type_(Type::kBool) {
@@ -26,7 +30,7 @@ Node::Node(const Object &object) : type_(Type::kObject) {
   value_.object = new Object(object);
 }
 
-const char* Node::type_name() const {
+const char *Node::type_name() const {
   switch (type_) {
     case Type::kNull: return "null";
     case Type::kBool: return "bool";
@@ -36,7 +40,9 @@ const char* Node::type_name() const {
     case Type::kArray: return "Array";
     case Type::kObject: return "Object";
   }
-  throw std::runtime_error("what the f*ck");
+  std::stringstream error_msg;
+  error_msg << "Tried to get the name of type " << static_cast<s64>(type_);
+  throw UndefinedTypeError(error_msg.str());
 }
 
 opt<bool> Node::as_bool() const {

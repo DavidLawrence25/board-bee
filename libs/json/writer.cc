@@ -3,6 +3,8 @@
 #include <cmath>
 #include <sstream>
 
+#include "../aliases.h"
+#include "exceptions.h"
 #include "node.h"
 
 namespace rose::json {
@@ -23,9 +25,7 @@ void Writer::Write(const Node *node) {
   } else if (node->is_null()) {
     WriteNull();
   } else {
-    std::stringstream error_msg;
-    error_msg << "Tried to write node with extraneous type at " << node;
-    throw std::runtime_error(error_msg.str());
+    throw UndefinedTypeError();
   }
 }
 
