@@ -1,10 +1,10 @@
 #ifndef BOARD_BEE_LIBS_TIME_DATE_TIME_H_
 #define BOARD_BEE_LIBS_TIME_DATE_TIME_H_
 
-#include <aliases.h>
-#include <json.h>
-
 #include <regex>
+
+#include "../aliases.h"
+#include "../json/node.h"
 
 namespace rose::time {
 

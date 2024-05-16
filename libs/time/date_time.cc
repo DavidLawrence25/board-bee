@@ -4,6 +4,7 @@
 #include <regex>
 #include <sstream>
 
+#include "../aliases.h"
 #include "exceptions.h"
 
 namespace rose::time {

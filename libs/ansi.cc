@@ -1,5 +1,7 @@
 #include "ansi.h"
 
+#include "aliases.h"
+
 namespace rose::ansi {
 
 CtrlSequence CtrlSequence::CursorUp(const u16 n) {
@@ -133,7 +135,7 @@ CtrlSequence CtrlSequence::SgrBgColor(Color color) {
 }
 
 CtrlSequence::operator str() const {
-  auto code = static_cast<char>(function_code_);
+  const auto code = static_cast<char>(function_code_);
   if (code == 'h') return "\033[?25h";
   if (code == 'l') return "\033[?25l";
   std::stringstream sout;
