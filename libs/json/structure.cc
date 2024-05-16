@@ -35,4 +35,9 @@ void ArrayStructure::AddPredicate(const NodePredicate &predicate) {
   predicates_.push_back(predicate);
 }
 
+ArrayStructure &ArrayStructure::operator+=(const NodePredicate &predicate) {
+  predicates_.push_back(predicate);
+  return *this;
+}
+
 }  // namespace rose::json
