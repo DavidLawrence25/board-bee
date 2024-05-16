@@ -7,7 +7,7 @@
 #include <set>
 
 #include "event.h"
-#include "item.h"
+#include "task.h"
 
 namespace bee {
 
@@ -27,22 +27,22 @@ class Board {
     static bool MatchesMetadata(const rose::json::Node &node);
     static bool MatchesLabels(const rose::json::Node &node);
     static bool MatchesFlags(const rose::json::Node &node);
-    static bool MatchesItems(const rose::json::Node &node);
+    static bool MatchesTasks(const rose::json::Node &node);
     static bool MatchesEvents(const rose::json::Node &node);
-    static bool MatchesItemGenerators(const rose::json::Node &node);
+    static bool MatchesTaskGenerators(const rose::json::Node &node);
     static bool MatchesEventGenerators(const rose::json::Node &node);
 
     static const rose::json::ObjectStructure *metadata();
-    static const rose::json::ArrayStructure *items();
+    static const rose::json::ArrayStructure *tasks();
     static const rose::json::ArrayStructure *events();
-    static const rose::json::ArrayStructure *item_generators();
+    static const rose::json::ArrayStructure *task_generators();
     static const rose::json::ArrayStructure *event_generators();
 
    private:
     inline static const rose::json::ObjectStructure *metadata_ = nullptr;
-    inline static const rose::json::ArrayStructure *items_ = nullptr;
+    inline static const rose::json::ArrayStructure *tasks_ = nullptr;
     inline static const rose::json::ArrayStructure *events_ = nullptr;
-    inline static const rose::json::ArrayStructure *item_generators_ = nullptr;
+    inline static const rose::json::ArrayStructure *task_generators_ = nullptr;
     inline static const rose::json::ArrayStructure *event_generators_ = nullptr;
   };
 
@@ -53,9 +53,9 @@ class Board {
   opt<str> desc_;
   HashMap<str, s32> labels_;
   std::set<str> flags_;
-  vector<Item> items_;
+  vector<Task> tasks_;
   vector<Event> events_;
-  // vector<ItemGenerator> item_generators_;
+  // vector<TaskGenerator> task_generators_;
   // vector<EventGenerator> event_generators_;
   inline static const rose::json::ObjectStructure *structure_ = nullptr;
 };

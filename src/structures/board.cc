@@ -3,7 +3,7 @@
 #include <json.h>
 
 #include "event.h"
-#include "item.h"
+#include "task.h"
 
 namespace bee {
 
@@ -33,16 +33,16 @@ bool Board::NestedStructures::MatchesFlags(const Node &node) {
   return true;
 }
 
-bool Board::NestedStructures::MatchesItems(const Node &node) {
-  return items()->Matches(node);
+bool Board::NestedStructures::MatchesTasks(const Node &node) {
+  return tasks()->Matches(node);
 }
 
 bool Board::NestedStructures::MatchesEvents(const Node &node) {
   return events()->Matches(node);
 }
 
-bool Board::NestedStructures::MatchesItemGenerators(const Node &node) {
-  return item_generators()->Matches(node);
+bool Board::NestedStructures::MatchesTaskGenerators(const Node &node) {
+  return task_generators()->Matches(node);
 }
 
 bool Board::NestedStructures::MatchesEventGenerators(const Node &node) {
@@ -61,17 +61,17 @@ const ObjectStructure *Board::NestedStructures::metadata() {
   return metadata_;
 }
 
-const ArrayStructure *Board::NestedStructures::items() {
-  if (items_) return items_;
+const ArrayStructure *Board::NestedStructures::tasks() {
+  if (tasks_) return tasks_;
   auto *tmp = new ArrayStructure();
   tmp->AddPredicate([](const Node &node) -> bool {
     for (const Node *value : *node.as_array().value()) {
-      if (!Item::MatchesStructure(*value)) return false;
+      if (!Task::MatchesStructure(*value)) return false;
     }
     return true;
   });
-  items_ = tmp;
-  return items_;
+  tasks_ = tmp;
+  return tasks_;
 }
 
 const ArrayStructure *Board::NestedStructures::events() {
@@ -91,10 +91,10 @@ const ObjectStructure *Board::structure() {
   if (structure_) return structure_;
   auto *tmp = new ObjectStructure();
   tmp->AddRequiredProperty("__metadata__", {NestedStructures::MatchesMetadata});
-  tmp->AddRequiredProperty("items", {NestedStructures::MatchesItems});
+  tmp->AddRequiredProperty("tasks", {NestedStructures::MatchesTasks});
   tmp->AddRequiredProperty("events", {NestedStructures::MatchesEvents});
-  tmp->AddRequiredProperty("item_generators",
-                           {NestedStructures::MatchesItemGenerators});
+  tmp->AddRequiredProperty("task_generators",
+                           {NestedStructures::MatchesTaskGenerators});
   tmp->AddRequiredProperty("event_generators",
                            {NestedStructures::MatchesEventGenerators});
   structure_ = tmp;

@@ -1,4 +1,4 @@
-#include "item.h"
+#include "task.h"
 
 #include <aliases.h>
 #include <json.h>
@@ -11,11 +11,11 @@ namespace bee {
 using namespace rose::json;
 using namespace rose::time;
 
-bool Item::Dates::MatchesStructure(const Node &node) {
+bool Task::Dates::MatchesStructure(const Node &node) {
   return structure()->Matches(node);
 }
 
-const ObjectStructure *Item::Dates::structure() {
+const ObjectStructure *Task::Dates::structure() {
   if (structure_) return structure_;
   auto *tmp = new ObjectStructure();
   auto string_node_date_time = [](const Node &node) -> bool {
@@ -30,11 +30,11 @@ const ObjectStructure *Item::Dates::structure() {
   return structure_;
 }
 
-bool Item::MatchesStructure(const Node &node) {
+bool Task::MatchesStructure(const Node &node) {
   return structure()->Matches(node);
 }
 
-const ObjectStructure *Item::structure() {
+const ObjectStructure *Task::structure() {
   if (structure_) return structure_;
   auto *tmp = new ObjectStructure();
   auto string_node_not_empty = [](const Node &node) -> bool {
@@ -58,16 +58,16 @@ const ObjectStructure *Item::structure() {
   return structure_;
 }
 
-void Item::set_valid_labels(const HashMap<str, s32> *valid_labels) {
+void Task::set_valid_labels(const HashMap<str, s32> *valid_labels) {
   valid_labels_ = valid_labels;
   structure_ = nullptr;
 }
 
-bool Item::IsLabelValid(const str_view label) {
+bool Task::IsLabelValid(const str_view label) {
   return valid_labels_->contains(label.data());
 }
 
-opt<s32> Item::LabelValue(const str_view label) {
+opt<s32> Task::LabelValue(const str_view label) {
   return IsLabelValid(label) ? mk_opt<s32>(valid_labels_->at(label.data()))
                              : std::nullopt;
 }

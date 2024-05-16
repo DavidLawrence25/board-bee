@@ -1,5 +1,5 @@
-#ifndef BOARD_BEE_SRC_STRUCTURES_ITEM_H_
-#define BOARD_BEE_SRC_STRUCTURES_ITEM_H_
+#ifndef BOARD_BEE_SRC_STRUCTURES_TASK_H_
+#define BOARD_BEE_SRC_STRUCTURES_TASK_H_
 
 #include <aliases.h>
 #include <json.h>
@@ -9,7 +9,7 @@
 
 namespace bee {
 
-class Item {
+class Task {
  public:
   class Dates {
    public:
@@ -34,7 +34,7 @@ class Item {
     inline static const rose::json::ObjectStructure *structure_ = nullptr;
   };
 
-  static Item FromJson(const rose::json::Node &node);
+  static Task FromJson(const rose::json::Node &node);
 
   str_view name() const { return name_; }
   opt<str_view> desc() const { return desc_; }
@@ -60,4 +60,4 @@ class Item {
 
 }  // namespace bee
 
-#endif  // BOARD_BEE_SRC_STRUCTURES_ITEM_H_
+#endif  // BOARD_BEE_SRC_STRUCTURES_TASK_H_

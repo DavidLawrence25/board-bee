@@ -9,7 +9,7 @@ add_subdirectory(libs)
 
 set(structures "src/structures/board.cc" "libs/time/date_time.cc"
     "src/structures/event.cc" "src/structures/flags.cc"
-    "src/structures/item.cc")
+    "src/structures/task.cc")
 
 set(src "src/main.cc" ${structures})
 

@@ -7,11 +7,11 @@
     "__metadata__": {
       "$ref": "./metadata.json"
     },
-    "items": {
-      "description": "An array of Item objects",
+    "tasks": {
+      "description": "An array of Task objects",
       "type": "array",
       "items": {
-        "$ref": "./item.json"
+        "$ref": "./task.json"
       }
     },
     "events": {
@@ -21,8 +21,8 @@
         "$ref": "./event.json"
       }
     },
-    "item_generators": {
-      "description": "An array of ItemGenerator objects",
+    "task_generators": {
+      "description": "An array of TaskGenerator objects",
       "type": "array"
     },
     "event_generators": {
@@ -32,9 +32,9 @@
   },
   "required": [
     "__metadata__",
-    "items",
+    "tasks",
     "events",
-    "item_generators",
+    "task_generators",
     "event_generators"
   ],
   "additionalProperties": false

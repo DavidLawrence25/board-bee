@@ -1,25 +1,25 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema#",
-  "title": "Item",
-  "description": "BoardBee Item",
+  "title": "Task",
+  "description": "BoardBee Task",
   "type": "object",
   "properties": {
     "name": {
-      "description": "The Item's name",
+      "description": "The Task's name",
       "type": "string",
       "minLength": 1
     },
     "desc": {
-      "description": "The Item's description",
+      "description": "The Task's description",
       "type": "string"
     },
     "label": {
-      "description": "A label to categorize this Item with",
+      "description": "A label to categorize this Task with",
       "type": "string",
       "minLength": 1
     },
     "flags": {
-      "description": "Boolean flags describing this Item's structure",
+      "description": "Boolean flags describing this Task's structure",
       "type": "object",
       "propertyNames": {
         "type": "string",
@@ -27,21 +27,21 @@
       }
     },
     "dates": {
-      "description": "Important DateTime information for this Item",
+      "description": "Important DateTime information for this Task",
       "type": "object",
       "properties": {
         "start_by": {
-          "description": "When this Item should have some progress by",
+          "description": "When this Task should have some progress by",
           "type": "string",
           "format": "date-time"
         },
         "finish_by": {
-          "description": "When this Item should be done by",
+          "description": "When this Task should be done by",
           "type": "string",
           "format": "date-time"
         },
         "due": {
-          "description": "When this Item is due",
+          "description": "When this Task is due",
           "type": "string",
           "format": "date-time"
         }
@@ -53,13 +53,13 @@
       "additionalProperties": false
     },
     "completion": {
-      "description": "How much of this Item has been completed",
+      "description": "How much of this Task has been completed",
       "type": "number",
       "minimum": 0.0,
       "maximum": 1.0
     },
     "checklist": {
-      "description": "Simple subtasks for this Item",
+      "description": "Simple subtasks for this Task",
       "type": "object",
       "additionalProperties": {
         "type": "boolean"
